@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+	"golang.org/x/exp/slices"
+)
+
+type persona struct {
+	nombre string
+	id     int32
+	edad   int32
+}
+
+type Personas []persona
+
+var lista Personas
+
+const personasMayores = 18
+
+func (l *Personas) agregarPersona(nom string, id int32, age int32) {
+	idx := slices.IndexFunc(*l, func(p persona) bool { return p.nombre == nom })
+	if idx == -1 {
+		*l = append(*l, persona{nom, id, age})
+	} else {
+		fmt.Println("cant add existing person to the list")
+	}
+}
+
+func map1[P1, P2 any](list []P1, f func(P1) P2) []P2 {
+	mapped := make([]P2, len(list)) // Se hace una nueva lista, con el tamaño de la original
+	for i, e := range list {        //Para cada elemento e indice de esa lista
+		mapped[i] = f(e) //En cada elemento dele como valor el resultado de la funcion cuando se le dio el elemento
+	}
+	return mapped
+}
+
+func filter1[T1 any](list []T1, f func(T1) bool) []T1 {
+	filtered := make([]T1, 0) //Nueva lista que no es del tamaño de la og
+
+	for _, element := range list { //Para cada elemento
+		if f(element) { // Si cumple con la nueva func
+			filtered = append(filtered, element) //Pegue a la nueva lista
+		}
+	}
+	return filtered
+}
+
+func (l *Personas) personasMayoresEdad() []persona {
+	list1 := filter1(*l, func(p persona) bool {
+		return p.edad >= personasMayores
+	})
+	return (list1)
+}
+
+func main() {
+	lista.agregarPersona("Alonso", 1, 21)
+	lista.agregarPersona("Sharon", 2, 23)
+	lista.agregarPersona("Steven", 3, 33)
+	fmt.Println(lista.personasMayoresEdad())
+
+}
