@@ -1,0 +1,34 @@
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	text := "Hola mi nombre es Raschell Marianny Jarquin Quesada"
+	fmt.Println(text)
+
+	// contar caracteres
+	numChars := len(text)
+
+	// contar palabras
+	words := strings.Fields(text)
+	numWords := len(words)
+
+	// contar líneas
+	numLines := 1
+	for _, char := range text {
+		if char == '\n' {
+			numLines++
+		}
+	}
+
+	// mostrar resultados
+	fmt.Printf("Número de caracteres: %d\n", numChars)
+	fmt.Printf("Número de palabras: %d\n", numWords)
+	fmt.Printf("Número de líneas: %d\n", numLines)
+
+}
+
+
