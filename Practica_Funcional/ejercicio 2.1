@@ -1,0 +1,14 @@
+//Haciendo uso de la función filter, implemente una función que a partir de una lista de cadenas representando frases de parámetro, 
+//filtre aquellas que contengan una palabra que el usuario indique en otro argumento (palabra completa contenida)
+
+let filtrarPalabras (pal:string) (lista:string list) =
+        lista
+        |> List.filter (fun str -> System.Text.RegularExpressions.Regex(sprintf "\\b%s\\b"  pal).IsMatch(str))
+        
+let palabras = ["La casa es roja"; "El casado es muy rico"]
+let palabra = "casa"
+
+let palabras_filtradas = filtrarPalabras palabra palabras
+
+printfn "La frases que contienen la palabra '%s': %A" palabra palabras_filtradas
+
