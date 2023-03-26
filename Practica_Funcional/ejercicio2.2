@@ -1,0 +1,8 @@
+//Construya una función que se llame general-sec A B. 
+//Esta función genera una secuencia de números en una lista de A hasta B, donde  A y B son números enteros.  
+let general_seq A B = 
+    if A > B then [] 
+    else [A..B]
+
+let lista = general_seq 1 10
+printfn "%A" lista 
