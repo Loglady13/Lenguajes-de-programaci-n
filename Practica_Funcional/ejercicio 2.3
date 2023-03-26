@@ -1,0 +1,50 @@
+//Migrar el ejercicio realizado en Go sobre facturas con listas de productos haciendo énfasis en la implementación 
+//de las funciones para calcular el monto a pagar por la factura completa y el monto a pagar por concepto del 
+//13% de impuesto de venta para aquellos productos que deban pagarlo según criterio de selección.
+open System
+type producto = { 
+    nombre: string
+    descripcion: string 
+    montoVenta: int32 
+}
+
+type productos = producto list
+
+let porcentajeImpuesto = 0.13
+
+
+let factura : productos = []
+
+let agregarProducto (f:productos ref) (nom:string) (desc:string) (pre:int32) : unit =
+    let idx = f.Value |> List.tryFindIndex (fun p -> p.nombre = nom)
+    match idx with
+    | Some _ -> printfn "cant add existing product to the list"
+    | None -> f.Value <- f.Value @ [{nombre = nom; descripcion = desc; montoVenta = pre }]
+
+
+let factura2 : productos ref = ref []
+
+agregarProducto factura2 "tarjeta madre" "Asus" 54200
+agregarProducto factura2 "mouse" "alambrico" 15000
+agregarProducto factura2 "teclado" "gamer con luces" 30000
+agregarProducto factura2 "memoria ssd" "2 gb" 65000
+agregarProducto factura2 "cable video" "display port 1m" 18000
+
+//printfn "%A" factura2
+let rangoPagoImpuestos = 20000
+let calcularImpuestosFactura (f: productos ref) : int32 =
+    
+    let lista = f.Value |> List.filter (fun p -> p.montoVenta > rangoPagoImpuestos )
+    let lista2 = lista |> List.map (fun p -> int32(float p.montoVenta * porcentajeImpuesto))
+    List.reduce (+) lista2
+    
+let resultado = calcularImpuestosFactura factura2
+printfn "%A" resultado
+
+let calcularMontoFactura ( f: productos ref) : int32 =
+    let lista = f.Value |> List.map(fun p -> p.montoVenta)
+    List.reduce (+) lista
+    
+let resultado2 = calcularMontoFactura factura2
+printfn "%A" resultado2
+    
